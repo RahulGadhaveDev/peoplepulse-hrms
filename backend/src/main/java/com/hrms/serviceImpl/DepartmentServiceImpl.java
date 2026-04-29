@@ -1,6 +1,7 @@
 package com.hrms.serviceImpl;
 
 import com.hrms.entity.Department;
+import com.hrms.exception.DepartmentNotFoundException;
 import com.hrms.repository.DepartmentRepository;
 import com.hrms.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department departmentById(int id) {
-        Department departmentById = departmentRepository.findById(id).orElseThrow(()->new RuntimeException("department not found"+id));
+        Department departmentById = departmentRepository.findById(id).orElseThrow(()->new DepartmentNotFoundException("department not found "+id));
         return departmentById;
     }
 
     @Override
     public Department updateDepartment(Department department ,int id) {
-        Department exciting = departmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Department Not found"+id));
+        Department exciting = departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException("Department Not found "+id));
         exciting.setDepartmentName(department.getDepartmentName());
 
         Department updatedDepartment = departmentRepository.save(exciting);
